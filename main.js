@@ -68,7 +68,7 @@ function getRelativeAngle(bodyA, bodyB) {
 }
 
 async function loadDefaultRagdoll(x, y) {
-    const response = await fetch('./assets/_Stickfigure.nodes');
+    const response = await fetch('./public/_Stickfigure.nodes');
     const arrayBuffer = await response.arrayBuffer();
     const bytes = new Uint8Array(arrayBuffer);
 
