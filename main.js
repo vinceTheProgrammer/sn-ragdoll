@@ -31,32 +31,31 @@ Runner.run(Runner.create(), engine);
 const ground = Bodies.rectangle(window.innerWidth / 2, window.innerHeight - 25, window.innerWidth, 50, { isStatic: true });
 World.add(world, ground);
 
-Events.on(engine, 'beforeUpdate', obj => {
-    const constraints = obj.source.world.constraints
+// Events.on(engine, 'beforeUpdate', obj => {
+//     const constraints = obj.source.world.constraints
 
-    // Example: loop through and do something with each body
-    for (const constraint of constraints) {
+//     for (const constraint of constraints) {
 
-        const child = constraint.bodyA;
-        const parent = constraint.bodyB;
+//         const child = constraint.bodyA;
+//         const parent = constraint.bodyB;
 
-        if (!child || !parent) continue;
+//         if (!child || !parent) continue;
 
-        const angle = clampAngleThetaTo2Pi(getRelativeAngle(child, parent));
-        const minAngle = -Math.PI / 2; // adjust this
-        const maxAngle = 0;            // adjust this
-    
-        if (angle < minAngle) {
-            const magnitude = Math.abs(minAngle - angle);
-            Body.rotate(child, 0.001 * magnitude );
-            //Body.setAngularVelocity(child, child.angularVelocity / 2);
-        } else if (angle > maxAngle) {
-            const magnitude = Math.abs(maxAngle + angle);
-            Body.rotate(child, -0.001 * magnitude);
-            //Body.setAngularVelocity(child, child.angularVelocity / 2);
-        }
-    }
-  });
+//         const angle = clampAngleThetaTo2Pi(getRelativeAngle(child, parent));
+//         const minAngle = -Math.PI / 2; // adjust this
+//         const maxAngle = 0;            // adjust this
+
+//         if (angle < minAngle) {
+//             const magnitude = Math.abs(minAngle - angle);
+//             Body.rotate(child, 0.001 * magnitude );
+//             //Body.setAngularVelocity(child, child.angularVelocity / 2);
+//         } else if (angle > maxAngle) {
+//             const magnitude = Math.abs(maxAngle + angle);
+//             Body.rotate(child, -0.001 * magnitude);
+//             //Body.setAngularVelocity(child, child.angularVelocity / 2);
+//         }
+//     }
+// });
 
 function clampAngleThetaTo2Pi(angle) {
     const twoPi = Math.PI * 2;
