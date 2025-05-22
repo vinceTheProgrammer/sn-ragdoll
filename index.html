@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ragdoll Sandbox</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="contextMenu" style="position: absolute; display: none; background: white; border: 1px solid #ccc;">
+        <button id="addRagdollBtn">Add Default Ragdoll</button>
+        <button id="uploadStickfigureBtn">Upload Stickfigure</button>
+        <input type="file" id="stickfigureFileInput" accept=".nodes" style="display: none;" />
+    </div>
+  <script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.js"></script>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

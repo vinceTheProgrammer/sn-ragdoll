@@ -1,0 +1,42 @@
+{
+  "name": "sticknodes-js",
+  "type": "module",
+  "description": "JavaScript bindings for unofficial Stick Nodes asset manipulation library. Currently only supports Stickfigures. Currently only supports assets up to version 4.1.0 build 21.",
+  "version": "1.0.11",
+  "license": "MIT",
+  "files": [
+    "*.js",
+    "*.wasm",
+    "*.d.ts"
+  ],
+  "main": "./sticknodes_js_nodejs.js",
+  "types": "./sticknodes_js.d.ts",
+  "sideEffects": [
+    "./sticknodes_js.js",
+    "./snippets/*"
+  ],
+  "keywords": [
+    "stick",
+    "nodes",
+    "asset",
+    "read",
+    "write"
+  ],
+  "exports": {
+    "import": {
+      "node": "./sticknodes_js_nodejs.js",
+      "default": "./sticknodes_js.js"
+    },
+    "require": "./sticknodes_js_nodejs.js",
+    "web": "./sticknodes_js_web.js"
+  },
+  "scripts": {
+    "docs:dev": "vitepress dev vpdocs",
+    "docs:build": "vitepress build vpdocs",
+    "docs:preview": "vitepress preview vpdocs"
+  },
+  "devDependencies": {
+    "typedoc": "^0.28.4",
+    "vitepress": "^1.6.3"
+  }
+}

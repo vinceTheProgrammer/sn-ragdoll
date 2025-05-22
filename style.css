@@ -1,0 +1,28 @@
+body { margin: 0; overflow: hidden; }
+canvas { display: block; background: #fafafa; }
+
+/* Custom context menu */
+#contextMenu {
+position: absolute;
+display: none;
+background: white;
+border: 1px solid #ccc;
+box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+font-family: sans-serif;
+font-size: 14px;
+z-index: 1000;
+}
+
+#contextMenu button {
+display: block;
+width: 150px;
+padding: 8px 10px;
+border: none;
+background: white;
+text-align: left;
+cursor: pointer;
+}
+
+#contextMenu button:hover {
+background: #f0f0f0;
+}
