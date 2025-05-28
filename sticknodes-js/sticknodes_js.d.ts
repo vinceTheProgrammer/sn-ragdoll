@@ -1,11 +1,20 @@
 export type PolyfillOptions = { anchor_node_draw_index?: number, color?: Color, use_polyfill_color?: boolean, attached_node_draw_indices?: Array<number>, }
 
-export type NodeOptions = { node_type?: NodeType, is_static?: boolean, is_stretchy?: boolean, is_smart_stretch?: boolean, do_not_apply_smart_stretch?: boolean, use_segment_color?: boolean, use_circle_outline?: boolean, circle_is_hollow?: boolean, use_gradient?: boolean, reverse_gradient?: boolean, gradient_mode?: number, use_segment_scale?: boolean, local_x?: number, local_y?: number, scale?: number, default_length?: number, length?: number, default_thickness?: number, thickness?: number, segment_curve_radius_and_default_curve_radius?: number, curve_circulization?: boolean, segment_curve_polyfill_precision?: number, half_arc?: boolean, right_triangle_direction?: number, triangle_upside_down?: boolean, trapezoid_top_thickness_ratio?: number, num_polygon_vertices?: number, default_local_angle?: number, local_angle?: number, default_angle?: number, color?: Color, gradient_color?: Color, circle_outline_color?: Color, }
+export type NodeOptions = { node_type?: NodeType, is_static?: boolean, is_stretchy?: boolean, is_floaty?: boolean, is_smart_stretch?: boolean, do_not_apply_smart_stretch?: boolean, smart_stretch_reset_impulse?: boolean, use_segment_color?: boolean, use_circle_outline?: boolean, circle_is_hollow?: boolean, use_gradient?: boolean, reverse_gradient?: boolean, gradient_mode?: GradientMode, use_segment_scale?: boolean, scale?: number, default_length?: number, length?: number, default_thickness?: number, thickness?: number, segment_curve_radius_and_default_curve_radius?: number, curve_circulization?: boolean, segment_curve_polyfill_precision?: number, half_arc?: boolean, triangle_type?: TriangleType, triangle_upside_down?: boolean, trapezoid_thickness_start?: number, trapezoid_thickness_end?: number, use_trapezoid_thickness_start?: boolean, use_trapezoid_thickness_end?: boolean, trapezoid_is_rounded_start?: boolean, trapezoid_is_rounded_end?: boolean, num_polygon_vertices?: number, default_local_angle?: number, local_angle?: number, default_angle?: number, color?: Color, gradient_color?: Color, circle_outline_color?: Color, angle_lock_mode?: AngleLockMode, angle_lock_relative_multiplier?: number, is_drag_locked?: boolean, drag_lock_angle?: number, smart_stretch_multiplier?: number, }
 
 /* tslint:disable */
 /* eslint-disable */
 /** @internal */
 export function main(): void;
+export enum AngleLockMode {
+  None = 0,
+  Absolute = 1,
+  Relative = 2,
+}
+export enum GradientMode {
+  Sideways = 0,
+  Normal = 1,
+}
 export enum NodeType {
   RootNode = -1,
   RoundedSegment = 0,
@@ -16,6 +25,10 @@ export enum NodeType {
   Ellipse = 5,
   Trapezoid = 6,
   Polygon = 7,
+}
+export enum TriangleType {
+  Isosceles = 0,
+  RightTriangle = 1,
 }
 export class Color {
   private constructor();
@@ -41,6 +54,10 @@ export class Color {
   blue: number;
   green: number;
   red: number;
+}
+export class ConnectorData {
+  private constructor();
+  free(): void;
 }
 export class Node {
   private constructor();
@@ -121,6 +138,9 @@ export class Node {
   readonly stickfigure: Stickfigure;
   readonly draw_index: number;
   node_type: NodeType;
+  gradient_mode: GradientMode;
+  triangle_type: TriangleType;
+  angle_lock_mode: AngleLockMode;
   color: Color;
   gradient_color: Color;
   circle_outline_color: Color;
@@ -133,10 +153,7 @@ export class Node {
   circle_is_hollow: boolean;
   use_gradient: boolean;
   reverse_gradient: boolean;
-  gradient_mode: number;
   use_segment_scale: boolean;
-  local_x: number;
-  local_y: number;
   scale: number;
   default_length: number;
   length: number;
@@ -146,9 +163,7 @@ export class Node {
   curve_circulization: boolean;
   segment_curve_polyfill_precision: number;
   half_arc: boolean;
-  right_triangle_direction: number;
   triangle_upside_down: boolean;
-  trapezoid_top_thickness_ratio: number;
   num_polygon_vertices: number;
   default_local_angle: number;
   local_angle: number;

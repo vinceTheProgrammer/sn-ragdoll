@@ -223,6 +223,10 @@ function passArray32ToWasm0(arg, malloc) {
     return ptr;
 }
 
+export function main() {
+    wasm.main();
+}
+
 let cachedInt32ArrayMemory0 = null;
 
 function getInt32ArrayMemory0() {
@@ -236,11 +240,21 @@ function getArrayI32FromWasm0(ptr, len) {
     ptr = ptr >>> 0;
     return getInt32ArrayMemory0().subarray(ptr / 4, ptr / 4 + len);
 }
-
-export function main() {
-    wasm.main();
-}
-
+/**
+ * @enum {0 | 1 | 2}
+ */
+export const AngleLockMode = Object.freeze({
+    None: 0, "0": "None",
+    Absolute: 1, "1": "Absolute",
+    Relative: 2, "2": "Relative",
+});
+/**
+ * @enum {0 | 1}
+ */
+export const GradientMode = Object.freeze({
+    Sideways: 0, "0": "Sideways",
+    Normal: 1, "1": "Normal",
+});
 /**
  * @enum {-1 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7}
  */
@@ -254,6 +268,13 @@ export const NodeType = Object.freeze({
     Ellipse: 5, "5": "Ellipse",
     Trapezoid: 6, "6": "Trapezoid",
     Polygon: 7, "7": "Polygon",
+});
+/**
+ * @enum {0 | 1}
+ */
+export const TriangleType = Object.freeze({
+    Isosceles: 0, "0": "Isosceles",
+    RightTriangle: 1, "1": "RightTriangle",
 });
 
 const ColorFinalization = (typeof FinalizationRegistry === 'undefined')
@@ -389,6 +410,25 @@ export class Color {
     }
 }
 
+const ConnectorDataFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_connectordata_free(ptr >>> 0, 1));
+
+export class ConnectorData {
+
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        ConnectorDataFinalization.unregister(this);
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_connectordata_free(ptr, 0);
+    }
+}
+
 const NodeFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
     : new FinalizationRegistry(ptr => wasm.__wbg_node_free(ptr >>> 0, 1));
@@ -447,6 +487,45 @@ export class Node {
      */
     set node_type(node_type) {
         wasm.node_set_node_type(this.__wbg_ptr, node_type);
+    }
+    /**
+     * @returns {GradientMode}
+     */
+    get gradient_mode() {
+        const ret = wasm.node_gradient_mode(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @param {GradientMode} gradient_mode
+     */
+    set gradient_mode(gradient_mode) {
+        wasm.node_set_gradient_mode(this.__wbg_ptr, gradient_mode);
+    }
+    /**
+     * @returns {TriangleType}
+     */
+    get triangle_type() {
+        const ret = wasm.node_triangle_type(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @param {TriangleType} triangle_type
+     */
+    set triangle_type(triangle_type) {
+        wasm.node_set_triangle_type(this.__wbg_ptr, triangle_type);
+    }
+    /**
+     * @returns {AngleLockMode}
+     */
+    get angle_lock_mode() {
+        const ret = wasm.node_angle_lock_mode(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @param {AngleLockMode} angle_lock_mode
+     */
+    set angle_lock_mode(angle_lock_mode) {
+        wasm.node_set_angle_lock_mode(this.__wbg_ptr, angle_lock_mode);
     }
     /**
      * @returns {Color}
@@ -805,19 +884,6 @@ export class Node {
         wasm.node_set_reverse_gradient(this.__wbg_ptr, value);
     }
     /**
-     * @returns {number}
-     */
-    get gradient_mode() {
-        const ret = wasm.node_gradient_mode(this.__wbg_ptr);
-        return ret;
-    }
-    /**
-     * @param {number} value
-     */
-    set gradient_mode(value) {
-        wasm.node_set_gradient_mode(this.__wbg_ptr, value);
-    }
-    /**
      * @returns {boolean}
      */
     get use_segment_scale() {
@@ -829,32 +895,6 @@ export class Node {
      */
     set use_segment_scale(value) {
         wasm.node_set_use_segment_scale(this.__wbg_ptr, value);
-    }
-    /**
-     * @returns {number}
-     */
-    get local_x() {
-        const ret = wasm.node_local_x(this.__wbg_ptr);
-        return ret;
-    }
-    /**
-     * @param {number} value
-     */
-    set local_x(value) {
-        wasm.node_set_local_x(this.__wbg_ptr, value);
-    }
-    /**
-     * @returns {number}
-     */
-    get local_y() {
-        const ret = wasm.node_local_y(this.__wbg_ptr);
-        return ret;
-    }
-    /**
-     * @param {number} value
-     */
-    set local_y(value) {
-        wasm.node_set_local_y(this.__wbg_ptr, value);
     }
     /**
      * @returns {number}
@@ -974,19 +1014,6 @@ export class Node {
         wasm.node_set_half_arc(this.__wbg_ptr, value);
     }
     /**
-     * @returns {number}
-     */
-    get right_triangle_direction() {
-        const ret = wasm.node_right_triangle_direction(this.__wbg_ptr);
-        return ret;
-    }
-    /**
-     * @param {number} value
-     */
-    set right_triangle_direction(value) {
-        wasm.node_set_right_triangle_direction(this.__wbg_ptr, value);
-    }
-    /**
      * @returns {boolean}
      */
     get triangle_upside_down() {
@@ -998,19 +1025,6 @@ export class Node {
      */
     set triangle_upside_down(value) {
         wasm.node_set_triangle_upside_down(this.__wbg_ptr, value);
-    }
-    /**
-     * @returns {number}
-     */
-    get trapezoid_top_thickness_ratio() {
-        const ret = wasm.node_trapezoid_top_thickness_ratio(this.__wbg_ptr);
-        return ret;
-    }
-    /**
-     * @param {number} value
-     */
-    set trapezoid_top_thickness_ratio(value) {
-        wasm.node_set_trapezoid_top_thickness_ratio(this.__wbg_ptr, value);
     }
     /**
      * @returns {number}

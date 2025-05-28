@@ -36,7 +36,7 @@
     "docs:preview": "vitepress preview vpdocs"
   },
   "devDependencies": {
-    "typedoc": "^0.28.4",
+    "typedoc": "^0.28.5",
     "vitepress": "^1.6.3"
   }
 }
