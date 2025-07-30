@@ -430,6 +430,37 @@ document.addEventListener('contextmenu', (e) => {
     contextMenu.style.display = 'block';
 });
 
+let touchTimeout;
+
+document.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) return;
+
+    const touch = e.touches[0];
+    clickX = touch.clientX;
+    clickY = touch.clientY;
+
+    touchTimeout = setTimeout(() => {
+        contextMenu.style.top = `${clickY}px`;
+        contextMenu.style.left = `${clickX}px`;
+        contextMenu.style.display = 'block';
+    }, 600); // long-press duration (600ms)
+});
+
+document.addEventListener('touchend', () => {
+    clearTimeout(touchTimeout);
+});
+
+document.addEventListener('touchmove', () => {
+    clearTimeout(touchTimeout); // cancel if finger moves
+});
+
+document.addEventListener('touchstart', (e) => {
+    // @ts-ignore
+    if (!contextMenu.contains(e.target)) {
+        contextMenu.style.display = 'none';
+    }
+}, { passive: true });
+
 document.addEventListener('click', () => {
     contextMenu.style.display = 'none';
 });
